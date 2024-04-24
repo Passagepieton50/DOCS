@@ -1,0 +1,52 @@
+# Informations sur le premier ma  tre
+MASTER1_HOST="172.20.10.15"
+MASTER1_USER="script"
+MASTER1_PASSWORD="script"
+MASTER1_PORT=3306
+
+# Informations sur le deuxi  me ma  tre
+MASTER2_HOST="172.20.10.16"
+MASTER2_USER="script"
+MASTER2_PASSWORD="script"
+MASTER2_PORT=3306
+
+# Connexion au premier ma  tre avec l'utilisateur test pour r  cup  rer les informations
+output_master1=$(mysql -h $MASTER1_HOST -P $MASTER1_PORT -u $MASTER1_USER -p$MASTER1_PASSWORD <<EOF
+STOP SLAVE;
+RESET SLAVE;
+SHOW MASTER STATUS\G;
+EOF
+)
+
+# Extraction des informations de position du fichier binaire du premier ma  tre
+filemaster1=$(echo "$output_master1" | awk '/File:/ {print $2}')
+positionmaster1=$(echo "$output_master1" | awk '/Position:/ {print $2}')
+
+# Connexion au deuxi  me ma  tre avec l'utilisateur test pour r  cup  rer les informations
+output_master2=$(mysql -h $MASTER2_HOST -P $MASTER2_PORT -u $MASTER2_USER -p$MASTER2_PASSWORD <<EOF
+STOP SLAVE;
+RESET SLAVE;
+SHOW MASTER STATUS\G;
+EOF
+)
+
+# Extraction des informations de position du fichier binaire du deuxi  me ma  tre
+filemaster2=$(echo "$output_master2" | awk '/File:/ {print $2}')
+positionmaster2=$(echo "$output_master2" | awk '/Position:/ {print $2}')
+
+# Configuration du premier ma  tre
+mysql -h $MASTER1_HOST -P $MASTER1_PORT -u $MASTER1_USER -p$MASTER1_PASSWORD <<EOF
+CHANGE MASTER TO MASTER_LOG_FILE='$filemaster2', MASTER_LOG_POS=$positionmaster2;
+START SLAVE;
+EOF
+
+# Configuration du deuxi  me ma  tre
+mysql -h $MASTER2_HOST -P $MASTER2_PORT -u $MASTER2_USER -p$MASTER2_PASSWORD <<EOF
+CHANGE MASTER TO MASTER_LOG_FILE='$filemaster1', MASTER_LOG_POS=$positionmaster1;
+START SLAVE;
+EOF
+
+# Affichage des r  sultats de SHOW SLAVE STATUS\G; pour les deux ma  tres
+mysql -h $MASTER1_HOST -P $MASTER1_PORT -u $MASTER1_USER -p$MASTER1_PASSWORD -e "SHOW SLAVE STATUS\G;" | head -n 14 >> log_Script_Replica
+mysql -h $MASTER2_HOST -P $MASTER2_PORT -u $MASTER2_USER -p$MASTER2_PASSWORD -e "SHOW SLAVE STATUS\G;" | head -n 14 >> log_Script_Replica
+
