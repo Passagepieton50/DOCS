@@ -1,4 +1,8 @@
- #!/bin/bash
+ #!/bin/
+ 
+#Script permettant l'installation/configuration de RSYSLOG LOGANALYZER ainsi que le déploiement sur des vms distantes avec une configuration par défaut.
+
+
 export DEBIAN_FRONTEND=noninteractive
 
 # Adresse IP du serveur distant
@@ -121,7 +125,7 @@ install_rsyslog_remote() {
 
     # Boucle pour demander les adresses IP des hôtes distants
     while true; do
-        read -p "ICI ERREUR JSP PQ MAIS MET UNE IP: " HOST_IP
+        read -p "IP HOTE DISTANT: " HOST_IP
         if [ "$HOST_IP" == "end" ]; then
             break
         else

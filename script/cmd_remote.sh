@@ -1,6 +1,6 @@
 
 #!/bin/bash
-
+#Script permettant de déployer des commandes sur plusieurs vms en ssh
 # Liste des adresses IP des hôtes
 hosts=("172.20.2.26" "172.20.2.25" "172.20.10.30" "172.20.10.31" "172.20.10.15" "172.20.10.16" "172.20.10.17" "172.20.3.2" "172.20.4.60" "172.20.3.82")
 

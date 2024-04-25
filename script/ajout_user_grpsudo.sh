@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#ajout des users du domaine redescendu sur les vms dans les groupes sudo
 # Liste des adresses IP
 ips=(
     "172.20.10.15"

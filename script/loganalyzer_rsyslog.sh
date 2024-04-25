@@ -1,3 +1,6 @@
+
+#Script permettant d'installer loganalyzer et d'afficher les logs de rsyslog
+
 install_rsyslog_loganalyzer() {
     echo "#################################################################"
     echo "           INSTALLATION DE RSYSLOG ET LOGANALYZER <3"

@@ -1,3 +1,5 @@
+#Script permettant le lancement de la réplication entre deux BDD en MASTER MASTER
+
 # Informations sur le premier ma  tre
 MASTER1_HOST="172.20.2.25"
 MASTER1_USER="user"

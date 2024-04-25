@@ -10,9 +10,9 @@ Avec ces commandes, vous créez un AS (système autonome), que vous pouvez voir 
 De base, l’agrégation d'adresse est déjà configurée sur les appareils CISCO. Vous allez la désactiver, car ces adresses peuvent se simplifier :
 ```bash
 Routeur2(config-router)#no auto-summary
-Routeur2(config-router)#network 223.0.0.0 0.0.0.255
-Routeur2(config-router)#network 223.0.1.0 0.0.0.255
-Routeur2(config-router)#network 223.0.2.0 0.0.0.255
+Routeur2(config-router)#network [IP] [WILDCARD]
+Routeur2(config-router)#network [IP1] [WILDCARD1]
+Routeur2(config-router)#network [IP2] [WILDCARD2]
 ```
 
 
@@ -35,16 +35,16 @@ Routeur 3 :
 ```bash
 Routeur3(config)#router eigrp 1
 Routeur3(config-router)#no auto-summary
-Routeur3(config-router)#network 223.0.2.0 0.0.0.255
-Routeur3(config-router)#network 223.0.3.0 0.0.0.255
+Routeur3(config-router)#network [IP2] [WILDCARD2]
+Routeur3(config-router)#network [IP3] [WILDCARD3]
 ```
 Routeur 4 :
 ```bash
 Routeur4(config)#router eigrp 1
 Routeur4(config-router)#no auto-summary
-Routeur4(config-router)#network 223.0.1.0 0.0.0.255
-Routeur4(config-router)#network 223.0.3.0 0.0.0.255
-Routeur4(config-router)#network 223.0.5.0 0.0.0.255
+Routeur4(config-router)#network [IP1] [WILDCARD1]
+Routeur4(config-router)#network [IP3] [WILDCARD3]
+Routeur4(config-router)#network [IP4] [WILDCARD4]
 ```
 Comme vous le voyez, nous avons configuré EIGRP sur chaque interface connectée à des WAN. Pour le routeur 1 et la BOX composée aussi de LAN vous devrez faire la même opération, mais sans ajouter le LAN.
 
@@ -54,13 +54,13 @@ Connectez-vous donc au routeur 1 et entrez ces commandes :
 ```bash
 Routeur1(config)#router eigrp 1
 Routeur1(config-router)#no auto-summary
-Routeur1(config-router)#network 223.0.0.0 0.0.0.255
+Routeur1(config-router)#network [IP] [WILDCARD]
 ```
 Puis sur la BOX :
 ```bash
 BOX(config)#router eigrp 1
 BOX(config-router)#no auto-summary
-BOX(config-router)#network 223.0.5.0 0.0.0.255
+BOX(config-router)#network [IP4] [WILDCARD4]
 ```
 Pour vérifier la configuration d’EIGRP :
 ```bash

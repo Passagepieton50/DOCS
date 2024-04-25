@@ -37,5 +37,5 @@ Un exemple avec ce shéma :
 
 ![Alt text](image-4.png)
 
-Le routeur 1 et 2 partage la même VIP qui est 192.168.0.1
+Le routeur 1 et 2 partage la même VIP qui est [IPVIP]
 

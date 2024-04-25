@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#Script permettant d'intégrer les vms de l'infrastructure dans le domaine ainsi que d'attribuer les bons paramètres (répertoire lors de la connexion ssh, les algorithmes pour les clés rsa...) pour l'intégration de guacamole.
 # Liste des adresses IP des machines virtuelles
 hosts=(172.20.3.2)
 
