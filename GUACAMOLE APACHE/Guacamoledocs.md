@@ -220,6 +220,7 @@ On déplace le plugin dans le dossier "extensions" qu'on a créer au préalable
 ```
 
 
+Ensuite il faudra configurer guacamole pour qu'il se connecter à l'AD.
 
 Pour faire ceci, il faut ce rendre dans le répertoire :
 
