@@ -203,4 +203,100 @@ Ensuite vous pouvez configurer vos connexions, groupes ect ect via l'interface w
 
 Dans notre infrastructure nous disposons d'un Windows Server, avec un gestionnaire d'utilisateur et un domaine. L'idée est de pouvoir ce connecter à notre guacamole avec nos comptes AD.
 
-Pour faire ceci 
+Il faut premièrement aller dans l'AD et créer un utilisateur qui nous permettra de parcourir l'arborescence de l'AD, pour ma part j'ai créer le compte "Guacamole". 
+
+Installation du plugin pour lier l'AD et Guacamole : 
+
+```bash
+wget https://downloads.apache.org/guacamole/1.5.2/binary/guacamole-auth-ldap-1.5.2.tar.gz
+
+tar -xzf guacamole-auth-ldap-1.5.2.tar.gz
+
+sudo mv guacamole-auth-ldap-1.5.2/guacamole-auth-ldap-1.5.2.jar /etc/guacamole/extensions
+
+sudo systemctl restart tomcat9
+
+On déplace le plugin dans le dossier "extensions" qu'on a créer au préalable 
+```
+
+
+
+Pour faire ceci, il faut ce rendre dans le répertoire :
+
+```bash
+nano /etc/guacamole/guacamole.properties
+```
+
+```bash
+# Paramètres de l'authentification LDAP pour Active Directory
+ldap-hostname: ${LDAP_HOST}
+ldap-port: ${LDAP_PORT}
+ldap-encryption-method: ${LDAP_ENCRYPTION_METHOD}
+
+# DN de recherche de l'utilisateur (utilisez le compte Guacamole)
+ldap-search-bind-dn: ${LDAP_SEARCH_BIND_DN}
+
+# Mot de passe pour la recherche de l'utilisateur
+ldap-search-bind-password: ${LDAP_SEARCH_BIND_PASSWORD}
+
+# Base DN pour la recherche des utilisateurs
+ldap-user-base-dn: ${LDAP_USER_BASE_DN}
+
+# Attribut d'identification de l'utilisateur
+ldap-username-attribute: ${LDAP_USERNAME_ATTRIBUTE}
+
+# Filtre de recherche des utilisateurs
+ldap-user-search-filter: ${LDAP_USER_SEARCH_FILTER}
+
+# Extension LDAP
+extension-priority: ldap
+
+# Serveur Guacamole externe sur le VLAN du service infra 
+guacd-hostname: ${GUACD_HOST}
+guacd-port: ${GUACD_PORT}
+
+```
+
+Renseigner les informations de l'AD qui permettront de s'authentifier avec les comptes AD sur l'interfaces de guacamole.
+
+Il faut ensuite relancer tomcat9 pour pouvoir initialiser les nouvelles configuration. 
+
+```bash
+sudo systemctl restart tomcat9
+```
+
+Ensuite on va revenir encore une fois sur la page principale de guacamole via l'url : http://<Adresse IP>:8080/guacamole/
+
+Et il faut se connecter avec les comptes AD afin de faire redescendre les connexions AD dans Guacamole. 
+
+Comme ceci : 
+
+![alt text](image-7.png)
+
+
+Connectez-vous 
+
+Par défaut vous aurez aucun droit, il faudra configurer les droits et les connexions ssh/rdp... par utilisateurs ensuite via l'interface admin de Guacamole avec le compte admin par defaut. 
+
+
+On peut voir ici les comptes AD redescendre dans guacamole juste ici : 
+
+![alt text](image-10.png)
+
+
+Voici un exemple de configuration par utilisateur terminé : 
+
+![alt text](image-8.png)
+
+![alt text](image-9.png)
+
+Et voici une exemple de création de connexion SSH (à vous de configurer comme vous le souhaitez votre interface avec des groupes ou pas...)
+
+
+![alt text](image-11.png)
+
+![alt text](image-12.png)
+
+On vient renseigner l'IP, le port et la clé privé qui permettra la connexion SSH entre les VMS depuis chaque utilisateurs.
+
+### Connexion SSH aux VMS plus vérification des clés ssh dans l'AD et redescente des comptes AD dans les VMS
