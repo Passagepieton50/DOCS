@@ -191,13 +191,13 @@ http://<Adresse IP>:8080/guacamole/
 ```
 Vous arriverez sur cette page : 
 
-![alt text](image-4.png)
+![alt text](image-24.png)
 
 Vous pouvez vous connecter avec les mots de passes par defaut "guacadmin guacadmin".
 
 Ensuite vous pouvez configurer vos connexions, groupes ect ect via l'interface web de guacamole.
 
-![alt text](image-5.png)
+![alt text](image-25.png)
 
 ### Liaison de votre guacamole à un AD 
 
@@ -291,7 +291,7 @@ On peut voir ici les comptes AD redescendre dans guacamole juste ici :
 
 Voici un exemple de configuration par utilisateur terminé : 
 
-![alt text](image-8.png)
+![alt text](image-26.png)
 
 ![alt text](image-9.png)
 
