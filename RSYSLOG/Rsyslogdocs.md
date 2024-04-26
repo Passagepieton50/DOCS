@@ -161,5 +161,341 @@ Et voila vous pouvez cliquer sur finish et vous avez finit l'installation de Log
 
 ![alt text](image-11.png)
 
-<!-- ![result](image-12.png) -->
+<!--  -->
 
+### Installation de Rsyslog 
+
+Pour l'installation de Rsyslog nous allons avoir besoin de 3 paquets : 
+
+```bash
+apt install rsyslog php(version) mariadb-client
+apt update && upgrade
+systemctl restart rsyslog.service mariadb.service
+
+```
+
+Ensuite nous allons procéder à la configuration du serveur rsyslog. 
+
+Nous allons nous rendre dans : 
+
+```bash
+cd /etc/
+rm rsyslog.conf 
+nano rsyslog.conf
+```
+Et nous allons attribuer cette configuration (à vous d'adapter selon vos besoins): 
+
+```bash
+# /etc/rsyslog.conf configuration file for rsyslog
+#
+# For more information install rsyslog-doc and see
+# /usr/share/doc/rsyslog-doc/html/configuration/index.html
+
+
+#################
+#### MODULES ####
+#################
+
+module(load="imuxsock") # provides support for local system logging
+module(load="imklog")   # provides kernel logging support
+#module(load="immark")  # provides --MARK-- message capability
+module(load="imfile" PollingInterval="10") # file support
+
+# provides UDP syslog reception
+module(load="imudp")
+input(type="imudp" port="514")
+
+# provides TCP syslog reception
+module(load="imtcp")
+input(type="imtcp" port="514")
+
+### REMONTER DES COMMANDES UTILISATEURS VIA AUDITD###
+input(type="imfile" File="/var/log/audit/audit.log" Tag="AUDIT" Severity="info" Facility="local7")
+
+
+###########################
+#### GLOBAL DIRECTIVES ####
+###########################
+
+#
+# Set the default permissions for all log files.
+#
+$FileOwner root
+$FileGroup adm
+$FileCreateMode 0640
+$DirCreateMode 0755
+$Umask 0022
+
+#
+# Where to place spool and state files
+#
+$WorkDirectory /var/spool/rsyslog
+
+#
+# Include all config files in /etc/rsyslog.d/
+#
+$IncludeConfig /etc/rsyslog.d/*.conf
+#if $msg contains 'audit_key' then /var/log/audit/audit.log
+
+
+###############
+#### RULES ####
+###############
+
+#
+# Log anything besides private authentication messages to a single log file
+#
+*.*;auth,authpriv.none          -/var/log/syslog
+
+#
+# Log commonly used facilities to their own log file
+#
+auth,authpriv.*                 /var/log/auth.log
+cron.*                          -/var/log/cron.log
+kern.*                          -/var/log/kern.log
+mail.*                          -/var/log/mail.log
+user.*                          -/var/log/user.log
+
+#
+# Emergencies are sent to everybody logged in.
+#
+*.emerg                         :omusrmsg:*
+
+#:programname, isequal, "auditd" /var/log/audit/audit.log
+#:programname, isequal, "auditd" /var/log/audit/audit.log
+# Dans /etc/rsyslog.conf ou un fichier de configuration similaire
+#:msg, contains, "audit" /var/log/audit/audit.log
+```
+
+Ensuite il faut configurer rsyslog pour qu'il envoie les logs dans la base de données pour ce faire il faut ce rendre ici : 
+
+```bash
+cd /etc/rsyslog.d/
+nano mysql.oonf
+```
+Et rentrer cette configuration (à vous d'adaptez encore une fois selon votre infrastructure):
+
+```bash
+### Configuration file for rsyslog-mysql
+### Changes are preserved
+
+##module (load="ommysql")
+##*.* action(type="ommysql" server="localhost" db="Syslog" uid="rsyslog" pwd="")
+module (load="ommysql")
+*.* action(type="ommysql" server="172.20.2.20" db="rsyslog" uid="user" pwd="user")
+module (load="ommysql")
+*.* action(type="ommysql" server="172.20.2.20" db="rsyslog" uid="user" pwd="user")
+```
+
+Puis on va venir relancer notre service rsyslog :
+
+```bash
+sudo systemctl restart rsyslog
+```
+
+### Déploiement de RSYSLOG
+
+Une fois que le serveur est configurer il faut maintenant configurer les vms afin qu'elles envoie leurs logs au serveur rsyslog. 
+
+Pour ce faire il faut leurs installer rsyslog avec la commande : 
+
+```bash
+Apt install rsyslog
+```
+
+Puis on va venir ensuite apporter cette configuration (à adapter selon l'infra que vous utilisez):
+
+```bash
+# /etc/rsyslog.conf configuration file for rsyslog
+#
+# For more information install rsyslog-doc and see
+# /usr/share/doc/rsyslog-doc/html/configuration/index.html
+
+
+#################
+#### MODULES ####
+#################
+
+module(load="imuxsock") # provides support for local system logging
+module(load="imklog")   # provides kernel logging support
+module(load="imfile" PollingInterval="10")      # provides file support
+#qmodule(load="immark")  # provides --MARK-- message capability
+
+# provides UDP syslog reception
+#module(load="imudp")
+#input(type="imudp" port="514")
+
+# provides TCP syslog reception
+#module(load="imtcp")
+#input(type="imtcp" port="514")
+
+input(type="imfile" File="/var/log/audit/audit.log" Tag="AUDIT" Severity="info" Facility="local7")
+
+
+###########################
+#### GLOBAL DIRECTIVES ####
+###########################
+
+#
+# Set the default permissions for all log files.
+#
+$FileOwner root
+$FileGroup adm
+$FileCreateMode 0640
+$DirCreateMode 0755
+$Umask 0022
+
+#
+# Where to place spool and state files
+#
+$WorkDirectory /var/spool/rsyslog
+
+#
+# Include all config files in /etc/rsyslog.d/
+#
+$IncludeConfig /etc/rsyslog.d/*.conf
+
+#if $msg contains 'audit_key' then /var/log/audit/audit.log
+
+
+###############
+#### RULES ####
+###############
+
+# Forward all with TCP on 172.20.3.82:514
+*.* action(type="omfwd" target="172.20.3.82" port="514" protocol="tcp")
+
+#
+# Log anything besides private authentication messages to a single log file
+#
+*.*;auth,authpriv.none          -/var/log/syslog
+
+#
+# Log commonly used facilities to their own log file
+#
+auth,authpriv.*                 /var/log/auth.log
+cron.*                          -/var/log/cron.log
+kern.*                          -/var/log/kern.log
+mail.*                          -/var/log/mail.log
+user.*                          -/var/log/user.log
+
+#
+# Emergencies are sent to everybody logged in.
+#
+*.emerg                         :omusrmsg:*
+#*.* @@172.20.3.82:514
+
+
+# Rediriger tous les messages du journal d'audit vers rsyslog
+#:programname, isequal, "auditd" @172.20.3.82:514
+
+#:programname, isequal, "auditd" /var/log/audit.log
+# Dans /etc/rsyslog.conf ou un fichier de configuration similaire
+#:msg, contains, "audit" @172.20.3.82:514
+
+```
+
+Une fois ce fichier de configuration déployer sur les différentes vms le déploiement de rsyslog est terminer. 
+
+Voici un résultat de consultation de log dans loganalyzer : 
+
+![alt text](image-13.png)
+
+
+### Installation de auditd afin de récolter les commandes utilisateurs
+
+Ce projet à pour but de remonter les commandes des différents users des vms dans l'interface web de loganalyzer. 
+
+Pour ce faire on va venir installer un serveur auditd sur rsyslog. 
+
+
+Installation de auditd : 
+
+```bash
+apt install auditd
+```
+
+Configuration du serveur auditd : 
+
+```bash
+#
+# This file controls the configuration of the audit daemon
+#
+
+local_events = yes
+write_logs = yes
+log_file = /var/log/audit/audit.log
+log_group = adm
+log_format = ENRICHED
+flush = INCREMENTAL_ASYNC
+freq = 50
+max_log_file = 8
+num_logs = 5
+priority_boost = 4
+name_format = NONE
+##name = mydomain
+max_log_file_action = ROTATE
+space_left = 75
+space_left_action = SYSLOG
+verify_email = yes
+action_mail_acct = root
+admin_space_left = 50
+admin_space_left_action = SUSPEND
+disk_full_action = SUSPEND
+disk_error_action = SUSPEND
+use_libwrap = yes
+##tcp_listen_port = 60
+tcp_listen_queue = 5
+tcp_max_per_addr = 1
+##tcp_client_ports = 1024-65535
+tcp_client_max_idle = 0
+transport = TCP
+krb5_principal = auditd
+##krb5_key_file = /etc/audit/audit.key
+distribute_network = no
+q_depth = 2000
+overflow_action = SYSLOG
+max_restarts = 10
+plugin_dir = /etc/audit/plugins.d
+end_of_event_timeout = 2
+
+```
+
+puis enregistrer et redemarrer auditd avec la commande :
+
+```bash
+systemctl restart auditd
+```
+
+Déploiement de auditd sur les vms clientes avec les règles adéquates : 
+
+Installation de auditd
+
+```bash
+apt install auditd
+```
+Paramétrage des règles d'enregistrement : 
+
+```bash
+nano /etc/audit/rules.d/audit.rules 
+```
+
+![alt text](image-14.png)
+
+Voici les règles appliquer à tout nos users AD. 
+
+Et ensuite il faut venir dans le rsyslog client ajouter la ligne : 
+
+![alt text](image-15.png)
+
+qui permet donc l'envoie des logs de auditd dans rsyslog.
+
+Voici un exemple : 
+
+![alt text](image-16.png)
+
+![alt text](image-17.png)
+
+![alt text](image-18.png)
+
+Et voila votre déploiement de rsyslog/auditd est maintenant fait et vous pouvez visualiser les logs depuis loganalyzer.

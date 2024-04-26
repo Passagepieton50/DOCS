@@ -29,7 +29,7 @@ Une fois l'installation terminé, connectez vous à la vm avec votre utilisateur
 ```bash
 sudo nano /etc/network/interfaces
 ```
-Puis renseigner la configuration réseau comme ceci, attention à bien mettre une IP différente sur chaque vms :
+Puis renseigner la configuration réseau.
 
 ### Mise en place du serveur Guacamole Apache.
 
