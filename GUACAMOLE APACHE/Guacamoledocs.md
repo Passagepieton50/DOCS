@@ -80,7 +80,7 @@ sudo systemctl start guacd
 sudo systemctl enable guacd
 ```
 
-On peut venir maintenant vérifier que le service est lancer avec la commande :
+On va venir maintenant vérifier que le service est lancer avec la commande :
 
 ```bash
 sudo systemctl status guacd
