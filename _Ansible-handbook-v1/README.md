@@ -1,4 +1,4 @@
-﻿![Ansible](/assets/images/ansible.png)
+
 
 # Ansible Handbook
 
