@@ -1,4 +1,6 @@
-﻿# Ansible Handbook
+﻿![Ansible](/assets/images/ansible.png)
+
+# Ansible Handbook
 
 Documentation structurée autour de 44 chapitres couvrant les fondamentaux, les modules, les bonnes pratiques et plusieurs cas concrets autour d’Ansible.
 
