@@ -1,0 +1,13 @@
+- name: module command
+  hosts: all
+
+  tasks:
+    - name: test
+      shell: | 
+        echo "Hello $VAR"
+      register: __output
+      environment:
+        VAR: pp 
+    - name: debug
+      debug:
+        var: __output

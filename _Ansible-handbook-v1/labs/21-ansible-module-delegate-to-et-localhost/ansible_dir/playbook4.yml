@@ -1,0 +1,16 @@
+# local avec ssh
+
+tasks:
+- name: local action
+  local_action: "command touch /tmp/pp2.txt"
+
+# sans ssh
+
+- name: premier playbook
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: local action
+    file:
+      state: touch
+      path: /tmp/pp3.txt

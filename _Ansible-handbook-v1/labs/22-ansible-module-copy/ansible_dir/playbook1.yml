@@ -1,0 +1,26 @@
+﻿# simple
+
+tasks:
+- name: copy
+  copy:
+    src: test.txt
+    dest: /tmp/pp.txt
+# Rq : attention à la localisation de la source (cf les rôles)
+
+
+# si changement > de base reupload
+
+
+- name: copy
+  copy:
+    src: test.txt
+    dest: /tmp/pp.txt
+    force: no
+
+#en mode récursif
+
+# mkdir -p tmp/pp/{1,2,3}
+- name: copy
+  copy:
+    src: tmp/
+    dest: /tmp/

@@ -1,0 +1,82 @@
+﻿# ANSIBLE : Module - User
+
+# création d'un user avec password
+
+- name: création de pp
+  user:
+    name: pp
+    state: present
+    password: "{{ 'password' | password_hash('sha512') }}"
+
+# ajout au groupe sudo
+
+- name: création de pp
+  user:
+    name: pp
+    state: present
+    groups: sudo
+    append: yes
+    password: "{{ 'password' | password_hash('sha512') }}"
+
+# fixer l'uid
+
+- name: création de pp
+  user:
+    name: pp
+    state: present
+    uid: 1200
+    groups: sudo
+    append: yes
+    password: "{{ 'password' | password_hash('sha512') }}"
+
+# ANSIBLE : Module - User
+
+
+# génération de la clef ssh
+
+- name: création de pp
+  user:
+    name: pp
+    state: present
+    uid: 1200
+    groups: sudo
+    append: yes
+    generate_ssh_key: yes
+    password: "{{ 'password' | password_hash('sha512') }}"
+
+# ajout d'un register et découvrir les outputs
+
+- name: création du user
+  user:
+    name: pp
+    state: present
+    generate_ssh_key: yes
+    uid: 1200
+    groups: sudo
+    append: yes
+    password: "{{ 'password' | password_hash('sha512') }}"
+  register: mavar
+- name: debug
+  debug:
+    msg: "{{ mavar }}"
+
+# nologin avec le shell
+
+- name: création du user pp
+  user:
+    name: pp
+    state: present
+    shell: /sbin/nologin
+    generate_ssh_key: yes
+    uid: 1200
+    groups: sudo
+    append: yes
+    password: "{{ 'password' | password_hash('sha512') }}"
+    password_lock: yes
+
+# suppression d'un user
+
+- name: Suppression du user pp
+  user:
+    name: pp
+    state: absent

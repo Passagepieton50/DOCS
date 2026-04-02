@@ -1,0 +1,47 @@
+- name: test des handlers
+  hosts: all
+  become: yes
+  tasks:
+  
+  - name: installation de nginx et utilitaires
+    apt:
+      name: curl,nginx
+      state: present
+      update_cache: yes 
+
+  - name: supppression du vhost par défaut
+    file:
+      path: "{{ item }}"
+      state: absent  
+    loop:
+    - "/etc/nginx/sites-available/default"
+    - "/etc/nginx/sites-enabled/default"
+
+  - name: installation du vhost
+    template:
+      src: vhost.conf.j2
+      dest: "/etc/nginx/sites-available/vhost.conf"
+      owner: root
+      group: root
+      mode: 0644
+    notify: reload_nginx
+
+  - name: flush handlers
+    meta: flush_handlers
+
+  - name: création du lien symbolique du vhost
+    file:
+      src: "/etc/nginx/sites-available/vhost.conf"
+      dest: "/etc/nginx/sites-enabled/vhost.conf"
+      state: link
+
+  - name: démarrage nginx
+    systemd:
+      name: nginx
+      state: started
+
+  handlers:
+  - name: reload_nginx
+    systemd:
+      name: nginx 
+      state: reloaded

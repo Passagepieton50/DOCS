@@ -1,0 +1,10 @@
+- name: variables & prompt
+  hosts: all  
+  tasks:
+  - name: print de la variable
+    shell: "echo {{ lookup('env', 'ENV') }}"
+    register: __output
+    changed_when: __output.rc != 0
+  - name: debug
+    debug:
+      var: __output

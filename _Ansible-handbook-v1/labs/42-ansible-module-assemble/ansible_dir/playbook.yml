@@ -1,0 +1,23 @@
+
+- name: module assemble
+  hosts: all
+  tasks:
+      - name: dir
+        file:
+          path: /tmp/sources
+          state: directory
+      - name: copy
+        copy:
+          src: "files/{{ item }}"
+          dest: /tmp/sources/
+        with_items:
+        - t1
+        - t2
+        - t3
+      - name: test assemble
+        assemble:
+          src: ./files/
+          dest: /tmp/myconf.cfg
+          delimiter: |
+            ## mode no remote
+          remote_src: no

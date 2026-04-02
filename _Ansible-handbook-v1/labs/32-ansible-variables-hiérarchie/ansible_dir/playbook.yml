@@ -1,0 +1,7 @@
+- name: test de la précédence des variables
+  hosts: all
+  vars:
+    var1: "playbook var"
+  roles:
+  - testvars
+  

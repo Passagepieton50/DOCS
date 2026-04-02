@@ -1,0 +1,13 @@
+- name: playbook test gather facts
+  hosts: all 
+  become: yes
+  gather_facts: no 
+  tasks:
+  - name: ping
+    setup:
+      filter: ansible_user*
+    register: __host_facts
+
+  - name: debug
+    debug:
+      var: __host_facts

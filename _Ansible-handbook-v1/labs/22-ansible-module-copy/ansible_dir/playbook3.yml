@@ -1,0 +1,13 @@
+# combinaison avec with_items
+
+vars:
+  mesfichiers:
+  - { source: "pp1.txt", destination: "/tmp/{{ ansible_hostname }}_pp1.txt", permission: "0755" }
+  - { source: "pp2.txt", destination: "/home/oki/{{ ansible_hostname }}_pp2.txt", permission: "0644" }
+tasks:
+- name: copy
+  copy:
+    src: "{{ item.source }}"
+    dest: "{{ item.destination }}"
+    mode: "{{ item.permission }}"
+  with_items: "{{ mesfichiers }}"

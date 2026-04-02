@@ -1,0 +1,14 @@
+- name: lineinfile
+  hosts: all
+  become: yes
+  tasks:
+  - name: lineinfile
+    lineinfile: 
+      dest: /tmp/test.conf
+      regexp: "^#"
+      state: absent
+      backup: yes
+
+
+
+

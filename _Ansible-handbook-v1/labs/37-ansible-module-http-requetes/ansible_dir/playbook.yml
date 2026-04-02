@@ -1,0 +1,10 @@
+- name: module uri
+  hosts: all
+  tasks:
+  - name: module uri
+    uri:
+      url: https://httpbin.org/basic-auth/toto/test
+      user: "toto"
+      password: "test"
+      method: GET
+      validate_certs: no

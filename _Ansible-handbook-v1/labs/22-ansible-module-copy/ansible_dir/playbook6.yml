@@ -1,0 +1,31 @@
+# avec validation
+
+- name: copie du fichier nginx.conf avec check
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 644
+    validate: /usr/bin/nginx -t -c %s
+
+# ou encore
+- name: Add devops user to the sudoers
+  copy:
+    dest: "/etc/sudoers.d/devops"
+    content: "oki ALL=(ALL)  NOPASSWD: ALL"
+    owner: root
+    group: root
+    mode: 400
+    validate: /usr/sbin/visudo -cf %s
+
+# test
+- name: Add devops user to the sudoers
+  copy:
+    dest: "/etc/sudoers.d/devops"
+    content: "oki ALL=(ALL)  AAAAA: ALL"
+    owner: root
+    group: root
+    mode: 400
+    validate: /usr/sbin/visudo -cf %s
+  become: yes

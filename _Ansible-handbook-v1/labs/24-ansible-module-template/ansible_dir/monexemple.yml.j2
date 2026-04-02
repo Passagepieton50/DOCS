@@ -1,0 +1,12 @@
+#{{ template_run_date }} - "{{ ansible_managed }}" via {{ template_uid }}@{{ template_host }}
+
+
+{{ mot }} PP ! 
+
+{% for personne in personnes %} 
+
+    Je suis {{personne.nom}}
+    J'habite {{personne.ville}}
+    j'ai {{personne.age}}
+    
+{% endfor %}

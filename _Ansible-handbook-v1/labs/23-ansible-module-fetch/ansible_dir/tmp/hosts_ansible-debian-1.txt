@@ -1,0 +1,10 @@
+127.0.0.1	localhost
+172.26.14.179	Redmine-terraform-test
+172.26.14.189	redmine-terraform
+172.26.14.170	kubernetes
+172.26.14.187	kvm-test
+::1	localhost ip6-localhost ip6-loopback
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+10.88.0.1	host.containers.internal
+10.88.0.7	ansible-debian-1 ansible-debian-1

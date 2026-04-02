@@ -1,0 +1,19 @@
+- name: module synchronize
+  hosts: all
+  become: yes
+  tasks: 
+  - name: installation rsync
+    apt: 
+      name: rsync
+      state: present
+
+  - name: Create directory
+    file:
+      path: "/home/devops/files/"
+      state: directory
+
+  - name: sync du fichier
+    synchronize:
+      src: /home/devops/files/
+      dest: /home/devops/files/
+    delegate_to: node3

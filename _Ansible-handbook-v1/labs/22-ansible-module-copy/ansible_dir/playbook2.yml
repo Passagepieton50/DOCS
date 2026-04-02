@@ -1,0 +1,7 @@
+# déplacer les fichiers ou répertoires sur la cible
+
+- name: copy
+  copy:
+    src: /home/oki
+    dest: tmp/
+    remote_src: yes

@@ -1,0 +1,26 @@
+﻿# liste simple
+
+- name: boucle création de répertoire
+  file:
+    path: /tmp/pp/{{ item }}
+    state: directory
+    recurse: yes
+  with_items:
+  - pp1
+  - pp2
+  - pp3
+  - pp4
+
+# liste composée (liste de dicts/hash)
+
+- name: création de fichiers
+  file:
+    path: /tmp/pp/{{ item.dir }}/{{ item.file }}
+    state: touch
+  with_items:
+  - { dir: "pp1", file: "fichierA" }
+  - { dir: "pp2", file: "fichierB" }
+  - { dir: "pp3", file: "fichierC" }
+  - { dir: "pp4", file: "fichierD" }
+
+# ANSIBLE : With Item et boucles

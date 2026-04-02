@@ -1,0 +1,17 @@
+﻿# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python / Ansible
+.venv/
+__pycache__/
+*.retry
+
+# Terraform / misc
+.terraform/
+*.tfstate
+*.tfstate.*
+
+

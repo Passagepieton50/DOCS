@@ -1,0 +1,58 @@
+﻿# ANSIBLE : Module APT
+
+# mise à jour du cache
+
+- name:
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+# délai de validité du cache
+
+- name:
+  apt:
+    name: haproxy
+    update_cache: yes
+    cache_valid_time: 60
+
+# utiliser la version backport
+
+- name:
+  apt:
+    name: haproxy
+    default_release: stretch-backports
+    update_cache: yes
+    cache_valid_time: 60
+# Rq :
+
+#apt list -a haproxy
+#apt list -i haproxy
+
+
+# ANSIBLE : Module APT
+
+
+# mise à jour
+
+- name:
+  apt:
+    name: haproxy
+    update_cache: yes
+    cache_valid_time: 60
+    state: latest
+
+# suppression
+
+- name:
+  apt:
+    name: haproxy
+    state: absent
+
+# suppression complète
+
+- name:
+  apt:
+    name: haproxy
+    state: absent
+    purge: yes
+    autoremove: yes

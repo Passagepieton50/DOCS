@@ -1,0 +1,10 @@
+﻿# delegate_to : déléguer une tache à un autre serveur identifié
+
+- name: premier playbook
+  hosts: all
+  tasks:
+  - name: création de fichier
+    file:
+      state: touch
+      path: /tmp/pp.txt
+    delegate_to: localhost

@@ -1,0 +1,9 @@
+
+- name: generate SSH keypair
+  openssh_keypair:
+    path: /root/.ssh/pp
+    type: rsa
+    size: 4096
+    state: present
+    force: false
+    mode: '0600'

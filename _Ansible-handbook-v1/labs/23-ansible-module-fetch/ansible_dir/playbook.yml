@@ -1,0 +1,34 @@
+- name: installation locale
+  hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+    - name: installation de nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: clean
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_fileglob:
+        - "/var/www/html/*.html"
+
+    - name: permission
+      file:
+        path: /var/www/html/
+        owner: ansible
+        recurse: yes
+        state: directory
+
+- name: découverte de fetch
+  hosts: all  
+  become: yes
+  tasks:
+  - name: utilisation de fetch
+    fetch:
+      src: /etc/hosts
+      dest: /var/www/html/hosts_{{ ansible_hostname }}.txt
+      flat: yes

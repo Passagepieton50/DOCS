@@ -1,0 +1,8 @@
+# utilisation de pattern
+
+- name: copy
+  copy:
+    src: "{{ item }}"
+    dest: /tmp/
+  with_fileglob:
+  - pp*

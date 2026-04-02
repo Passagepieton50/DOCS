@@ -1,0 +1,19 @@
+# parcourir une liste de machines de l'inventaire
+
+# with_items:
+#  - "{{ groups['all'] }}"
+
+# en version plus simple :
+vars:
+  fichiers:
+  - { dir: "pp1", file: "fichierA" }
+  - { dir: "pp2", file: "fichierB" }
+  - { dir: "pp3", file: "fichierC" }
+  - { dir: "pp4", file: "fichierD" }
+tasks:
+- name: création de fichiers
+  file:
+    path: /tmp/{{ item }}
+    state: touch
+  with_inventory_hostnames:
+  - all

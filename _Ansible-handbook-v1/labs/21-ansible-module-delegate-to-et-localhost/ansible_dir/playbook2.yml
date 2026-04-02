@@ -1,0 +1,12 @@
+# quelles variables ?
+
+- name: premier playbook
+  hosts: all
+  tasks:
+  - name: debug
+    debug:
+      var: var1
+  - name: debug
+    debug:
+      var: var1
+    delegate_to: localhost

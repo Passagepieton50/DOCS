@@ -1,0 +1,15 @@
+- name: playbook de test de templates
+  hosts: all
+  vars: 
+    mot: "hello" 
+    personnes:
+    - { nom: "Tom", age: "19", ville: "caen"}
+    - { nom: "Thomas", age: "18", ville: "Lyon"}
+    - { nom: "Maxime", age: "17", ville: "Paris"}
+  tasks: 
+  - name: mon premier template
+    template:
+      src: monexemple.yml.j2
+      dest: /tmp/monexemple.yml
+    with_items:
+    - "{{ personnes }}"

@@ -1,0 +1,8 @@
+#si on ne veut faire qu'une seule fois la tâche ?
+
+- name: création de fichier
+  file:
+    state: touch
+    path: /tmp/pp.txt
+  delegate_to: localhost
+  run_once: yes

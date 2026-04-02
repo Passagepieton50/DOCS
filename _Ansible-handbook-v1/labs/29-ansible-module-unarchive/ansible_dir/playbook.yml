@@ -1,0 +1,14 @@
+- name: test de unarchive
+  hosts: all
+  become: yes
+  tasks:
+
+  - name: tomcat
+    get_url:
+      url: https://downloads.apache.org/tomcat/tomcat-10/v10.1.53/bin/apache-tomcat-10.1.53.tar.gz  
+      dest: /opt/tomcat8
+      mode: 0755
+      checksum: sha512:0b21ad1e61b3163125866e8f5f317b23886998fccb4398f305c39a0bc1f688f6c566ab040da9f559ab50af4d699bda771d1ca89e229ead052336559a25753b45
+      group: root  
+      owner: root
+      validate_certs: no 

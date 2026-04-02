@@ -1,0 +1,59 @@
+﻿# Création d'un fichier 
+
+- name: création d'un fichier
+  file:
+    path: /tmp/pp.txt
+    state: touch
+    owner: pp
+
+# Utilisation de stat 
+
+- name: check avec stat
+  stat:
+    path: /tmp/pp.txt
+
+# récupération de la variable
+
+- name: check avec stat
+  stat:
+    path: /tmp/pp.txt
+  register: __fichier_pp_exist
+- name: debug
+  debug:
+    var: __fichier_pp
+
+# récupération d'une clef
+
+- name: debug
+  debug:
+    var: __fichier_pp.stat.exists
+
+# utilisation conditionnnel
+
+- name: création répertoire pp
+  file:
+    path: /tmp/pp
+    state: directory
+  when: __fichier_pp.stat.exists
+
+# exemple en condition réel
+
+
+- name: création d'un fichier
+  file:
+    path: /tmp/pp.txt
+    state: touch
+    owner: root
+  when: pp_file is defined
+- name: check avec stat
+  stat:
+    path: /tmp/pp.txt
+  register: __fichier_pp
+- name: debug
+  debug:
+    var: __fichier_pp.stat.exists
+- name: création répertoire pp
+  file:
+    path: /tmp/pp
+    state: directory
+  when: __fichier_pp.stat.exists and pp_file is defined

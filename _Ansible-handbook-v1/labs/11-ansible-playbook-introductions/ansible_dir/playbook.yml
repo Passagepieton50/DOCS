@@ -1,0 +1,9 @@
+﻿- name: Mon premier Playbook !!
+  hosts: all
+  remote_user: vagrant
+  become_user: yes
+  tasks:
+  - name: je debug
+    debug:
+      msg: "{{ var1 }}"
+

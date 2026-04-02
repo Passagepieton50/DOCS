@@ -1,0 +1,19 @@
+# avec backup
+
+- name: copy
+  copy:
+    src: "{{ item }}"
+    dest: /tmp/
+    backup: yes
+  with_fileglob:
+  - pp*
+
+# recopier du contenu à partir d'une variale ou/et un string
+
+- name: copy
+  copy:
+    content: |
+      Salut
+      la team !!
+      on est sur {{ ansible_hostname }}
+    dest: /tmp/hello.txt
