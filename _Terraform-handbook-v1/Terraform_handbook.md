@@ -1,5 +1,5 @@
 ﻿
-![Terraform](../../assets/images/terraform.png)
+![Terraform](/assets/images/terraform.png)
 
 # Terraform Handbook
 
