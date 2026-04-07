@@ -1,0 +1,46 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# Sensitive files
+*.tfvars
+*.tfvars.json
+secrets.tfvars
+
+# SSH / keys
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Temp
+*.tmp
+*.bak
+
+# Docker
+*.tar
+
+# Kubernetes
+kubeconfig*
+
+# Misc
+.env
+.env.*
