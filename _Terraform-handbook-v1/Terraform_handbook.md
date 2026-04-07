@@ -1,9 +1,10 @@
-﻿
-![Terraform](/assets/images/terraform.png)
+﻿![Terraform](/assets/images/terraform.png)
 
 # Terraform Handbook
 
 Documentation complète structurée autour de 35 chapitres couvrant les fondamentaux, Docker, Kubernetes et KVM avec Terraform.
+
+
 
 
 # Introduction
@@ -57,7 +58,6 @@ Prérequis recommandés :
 * accès à une plateforme cible (cloud, VM, Docker, etc.)
 
 
-
 ## 2.2 Installation de Terraform
 
 ### Installation sous Linux
@@ -71,7 +71,6 @@ unzip terraform_<VERSION>_linux_amd64.zip
 sudo mv terraform /usr/local/bin/
 sudo chmod +x /usr/local/bin/terraform
 ```
-
 
 
 ### Installation via gestionnaire de paquets (recommandé)
@@ -94,14 +93,12 @@ sudo apt install terraform
 ```
 
 
-
 ### macOS (Homebrew)
 
 ```bash
 brew tap hashicorp/tap
 brew install hashicorp/tap/terraform
 ```
-
 
 
 ### Windows (Chocolatey)
@@ -111,7 +108,6 @@ choco install terraform
 ```
 
 
-
 ## 2.3 Vérification de l’installation
 
 ```bash
@@ -119,7 +115,6 @@ terraform version
 ```
 
 La commande doit afficher la version installée ainsi que les informations sur l’architecture.
-
 
 
 ## 2.4 Structure d’un projet Terraform
@@ -142,7 +137,6 @@ output "example" {
 ```
 
 
-
 ## 2.5 Initialisation d’un projet
 
 Avant toute exécution, Terraform doit être initialisé :
@@ -158,7 +152,6 @@ Cette commande :
 * prépare le répertoire `.terraform/`
 
 
-
 ## 2.6 Cycle de travail initial
 
 Terraform suit un cycle standard :
@@ -169,7 +162,6 @@ terraform validate  # validation syntaxique
 terraform plan      # aperçu des changements
 terraform apply     # application des changements
 ```
-
 
 
 ## 2.7 Fichiers générés
@@ -183,7 +175,6 @@ Après initialisation et exécution :
 Ces fichiers ne doivent pas être versionnés (sauf backend distant configuré).
 
 
-
 ## 2.8 Bonnes pratiques (2026)
 
 * privilégier l’installation via gestionnaire de paquets
@@ -192,7 +183,6 @@ Ces fichiers ne doivent pas être versionnés (sauf backend distant configuré).
 * isoler les projets Terraform par répertoire
 * initialiser systématiquement avec `terraform init`
 * utiliser des environnements reproductibles (containers, CI)
-
 
 
 ## 2.9 Remarques
@@ -6410,49 +6400,49 @@ Cloud-init est indispensable pour exploiter correctement Terraform avec des mach
 
 
 
-en cours
+Chapitre 29 en cours
 
 
 
 
 
 
-en cours
+Chapitre 30 en cours
 
 
 
 
 
 
-en cours
+Chapitre 31 en cours
 
 
 
 
 
 
-en cours
+Chapitre 32 en cours
 
 
 
 
 
 
-en cours
+Chapitre 33 en cours
 
 
 
 
 
 
-en cours
+Chapitre 34 en cours
 
 
 
 
 
 
-en cours
+Chapitre 35 en cours
 
 
 
