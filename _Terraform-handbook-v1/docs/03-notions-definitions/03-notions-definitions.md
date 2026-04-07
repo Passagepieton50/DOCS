@@ -1,4 +1,4 @@
-![Terraform](../assets/images/terraform.png) 
+![Terraform](../../assets/images/terraform.png)
 
 # 03 – Notions et définitions
 
