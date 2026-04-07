@@ -1,3 +1,3 @@
 ![Terraform](../../assets/images/terraform.png)
 
-en cours
+Chapitre 34 en cours
